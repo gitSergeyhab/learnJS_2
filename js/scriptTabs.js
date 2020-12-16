@@ -84,13 +84,17 @@ window.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = ''; // прокрутка по умолчанию
     }
 
+    function openModal() {
+        modal.classList.add('show');
+        modal.classList.remove('hide');
+        // modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // бирает прокрутку
+        clearInterval(modalTimer);
+
+    }
+
     btnModals.forEach(btn => {
-            btn.addEventListener('click', () => {
-                modal.classList.add('show');
-                modal.classList.remove('hide');
-                // modal.style.display = 'block';
-                document.body.style.overflow = ''; // бирает прокрутку
-            });
+            btn.addEventListener('click', openModal);
     });
 
     modalClose.addEventListener('click', closeModal);
@@ -105,5 +109,19 @@ window.addEventListener('DOMContentLoaded', () => {
         if (evt.code == 'Escape') {
             closeModal();
         }
-    })
+    });
+
+    // открывает модальное окно, когда страница дошла (почти) до конца
+    function showModalByScroll(){
+        // сколько уже пролистано + высота клиентскоо окна >= полная область прокрутки документа по высоте
+        if ((window.pageYOffset + document.documentElement.clientHeight)*1.02 >= document.documentElement.scrollHeight) {
+            openModal();
+            window.removeEventListener('scroll', showModalByScroll); // отменяет саму себя после 1-го выполнения
+         }
+    }
+    window.addEventListener('scroll', showModalByScroll);
+
+    const modalTimer = setTimeout(openModal, 5000);
+
 });
+
