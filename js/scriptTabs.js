@@ -2,7 +2,6 @@ window.addEventListener('DOMContentLoaded', () => {
     
     const contents = document.querySelectorAll('.tabcontent');
     const tabItems = document.querySelectorAll('.tabheader__item');
-    console.log(tabItems);
 
     function deactivateAll() {
         contents.forEach((cont, i) => {
@@ -68,4 +67,43 @@ window.addEventListener('DOMContentLoaded', () => {
 
     inputTime();
     setInterval(inputTime, 1000);
-})
+
+    // modal
+
+    const modal = document.querySelector('.modal');
+    const btnModals = document.querySelectorAll('[data-modal]');
+    const modalClose = modal.querySelector('.modal__close');
+    // const btnModals = document.querySelectorAll('.btn-modal')
+
+    console.log(modal, modalClose, btnModals);
+
+    function closeModal() {
+        // modal.style.display = 'none';
+        modal.classList.add('hide');
+        modal.classList.remove('show');
+        document.body.style.overflow = ''; // прокрутка по умолчанию
+    }
+
+    btnModals.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modal.classList.add('show');
+                modal.classList.remove('hide');
+                // modal.style.display = 'block';
+                document.body.style.overflow = ''; // бирает прокрутку
+            });
+    });
+
+    modalClose.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (evt) => {
+        if (evt.target == modal) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', (evt) => {
+        if (evt.code == 'Escape') {
+            closeModal();
+        }
+    })
+});
