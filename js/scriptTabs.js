@@ -33,11 +33,9 @@ window.addEventListener('DOMContentLoaded', () => {
     //dateTimer
 
     const timeX = '01-18-2021';
-    console.log(timeX, Date.parse(timeX));
 
     function lostTime() {
         const diffTime = Date.parse(timeX) - Date.parse(new Date());
-        // console.log(diffTime/1000/60/60/24);
 
         return {
             'msAll': diffTime,
@@ -65,17 +63,9 @@ window.addEventListener('DOMContentLoaded', () => {
             hours.textContent = makeFirstZero(nowlostTime.hours);
             minutes.textContent = makeFirstZero(nowlostTime.minutes);
             seconds.textContent = makeFirstZero(nowlostTime.seconds);
-        } else {
-            days.textContent = 'X';
-            hours.textContent ='X';
-            minutes.textContent = 'X';
-            seconds.textContent = 'X';
         }
-
-        
     }
 
     inputTime();
     setInterval(inputTime, 1000);
-
 })
