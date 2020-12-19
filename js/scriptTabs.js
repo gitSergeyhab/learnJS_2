@@ -75,7 +75,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const modalClose = modal.querySelector('.modal__close');
     // const btnModals = document.querySelectorAll('.btn-modal')
 
-    console.log(modal, modalClose, btnModals);
+    // console.log(modal, modalClose, btnModals);
 
     function closeModal() {
         // modal.style.display = 'none';
@@ -176,7 +176,69 @@ window.addEventListener('DOMContentLoaded', () => {
         'это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
         430,
         '.menu__field .container'
-    ).elementAdder()
+    ).elementAdder();
+
+
+    // forms
+
+    const forms = document.querySelectorAll('form');
+
+    const message = {
+        loading: 'загрузка',
+        success: 'все хорошо',
+        failure: 'все плохо'
+    };
+
+    forms.forEach(item => {
+        postData(item);
+    });
+
+    function postData(form) {
+        form.addEventListener('submit', (evt) => {
+            evt.preventDefault();
+
+            const statusMessage = document.createElement('div');
+            statusMessage.classList.add('status');
+            statusMessage.textContent = message.loading; // выпадает во время загркзки
+            form.append(statusMessage);
+
+            const request = new XMLHttpRequest(); // Объект XMLHttpRequest даёт возможность из JavaScript делать HTTP-запросы к серверу без перезагрузки страницы.
+            request.open('POST', 'server.php');
+
+
+
+
+            const formData = new FormData(form); //объект, представляющий данные HTML формы. Если передать в конструктор элемент HTML-формы form, то создаваемый объект автоматически прочитает из неё поля.
+
+            //
+            // для отправке в формате JSON
+            request.setRequestHeader('Content-type', 'application/json');
+            const obj = {};
+            formData.forEach(function(value, key) {
+                obj[key] = value;
+            });
+
+            const json = JSON.stringify(obj);
+            request.send(json); 
+            // //
+            //
+
+            //request.send(formData); // отсылаем данные на сервер (в скобках - тело запроса - нужно для POST) // not json
+
+            request.addEventListener('load', () => {
+                if (request.status === 200) {
+                    console.log(request.response);
+                    statusMessage.textContent = message.success; 
+                    form.reset(); // очищает форму
+                    setTimeout(() => {
+                        statusMessage.remove();
+                    }, 2000);
+                } else {
+                    statusMessage.textContent = message.failure;
+                }
+            });
+        });
+    }
 
 
 });
