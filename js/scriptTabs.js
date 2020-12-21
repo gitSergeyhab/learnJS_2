@@ -251,5 +251,13 @@ window.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }, 2500);
     }
+
+    fetch('http://localhost:3000/menu')
+        .then(data => data.json())
+        .then(data => console.log(data));
+
+    /*
+    npx json-server --watch db.json
+    */
 });
 
