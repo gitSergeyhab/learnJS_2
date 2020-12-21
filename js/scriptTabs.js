@@ -72,10 +72,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const modal = document.querySelector('.modal');
     const btnModals = document.querySelectorAll('[data-modal]');
-    const modalClose = modal.querySelector('.modal__close');
-    // const btnModals = document.querySelectorAll('.btn-modal')
-
-    // console.log(modal, modalClose, btnModals);
 
     function closeModal() {
         // modal.style.display = 'none';
@@ -97,10 +93,9 @@ window.addEventListener('DOMContentLoaded', () => {
             btn.addEventListener('click', openModal);
     });
 
-    modalClose.addEventListener('click', closeModal);
 
     modal.addEventListener('click', (evt) => {
-        if (evt.target == modal) {
+        if (evt.target == modal || evt.target.classList.contains('modal__close')) {
             closeModal();
         }
     });
@@ -119,9 +114,9 @@ window.addEventListener('DOMContentLoaded', () => {
             window.removeEventListener('scroll', showModalByScroll); // отменяет саму себя после 1-го выполнения
          }
     }
-    // window.addEventListener('scroll', showModalByScroll);
+    window.addEventListener('scroll', showModalByScroll);
 
-    // const modalTimer = setTimeout(openModal, 5000);
+    const modalTimer = setTimeout(openModal, 50000);
 
     class Menu {
         constructor(src, alt, subtitle, descr, price, selector) {
@@ -184,7 +179,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const forms = document.querySelectorAll('form');
 
     const message = {
-        loading: 'загрузка',
+        loading: 'img/forms/sp.svg',
         success: 'все хорошо',
         failure: 'все плохо'
     };
@@ -197,10 +192,15 @@ window.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', (evt) => {
             evt.preventDefault();
 
-            const statusMessage = document.createElement('div');
-            statusMessage.classList.add('status');
-            statusMessage.textContent = message.loading; // выпадает во время загркзки
-            form.append(statusMessage);
+            const statusMessage = document.createElement('img');
+            statusMessage.src = message.loading;
+            statusMessage.alt = 'loading';
+            statusMessage.style.cssText = `
+                display: block;
+                margin: 0 auto;
+            `;
+            // form.append(statusMessage);
+            form.insertAdjacentElement('afterend', statusMessage)
 
             const request = new XMLHttpRequest(); // Объект XMLHttpRequest даёт возможность из JavaScript делать HTTP-запросы к серверу без перезагрузки страницы.
             request.open('POST', 'server.php');
@@ -209,6 +209,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
             const formData = new FormData(form); //объект, представляющий данные HTML формы. Если передать в конструктор элемент HTML-формы form, то создаваемый объект автоматически прочитает из неё поля.
+
+            console.log('formData', formData);
 
             //
             // для отправке в формате JSON
@@ -220,6 +222,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             const json = JSON.stringify(obj);
             request.send(json); 
+            console.log('json', json);
             // //
             //
 
@@ -228,18 +231,39 @@ window.addEventListener('DOMContentLoaded', () => {
             request.addEventListener('load', () => {
                 if (request.status === 200) {
                     console.log(request.response);
-                    statusMessage.textContent = message.success; 
+                    showThanksModal(message.success);
                     form.reset(); // очищает форму
-                    setTimeout(() => {
-                        statusMessage.remove();
-                    }, 2000);
+                    statusMessage.remove();
+                    
                 } else {
-                    statusMessage.textContent = message.failure;
+                    showThanksModal(message.failure);
                 }
             });
         });
     }
+    function showThanksModal(messege) {
+        const prewModalWindow = document.querySelector('.modal__dialog');
 
+        prewModalWindow.classList.add('hide');
+
+        openModal()
+
+        const insertWindow = document.createElement('div');
+        insertWindow.classList.add('modal__dialog');
+        insertWindow.innerHTML = `
+            <div class='modal__content'>
+                <div class="modal__close">&times;</div>
+                <div class="modal__title">${messege}</div>
+            </div>
+        `;
+        document.querySelector('.modal').append(insertWindow);
+        setTimeout(() => {
+            insertWindow.remove();
+            prewModalWindow.classList.remove('hide');
+            closeModal();
+        }, 2500);
+    }
+ 
 
 });
 
