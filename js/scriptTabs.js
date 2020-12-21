@@ -199,45 +199,34 @@ window.addEventListener('DOMContentLoaded', () => {
                 display: block;
                 margin: 0 auto;
             `;
-            // form.append(statusMessage);
-            form.insertAdjacentElement('afterend', statusMessage)
-
-            const request = new XMLHttpRequest(); // Объект XMLHttpRequest даёт возможность из JavaScript делать HTTP-запросы к серверу без перезагрузки страницы.
-            request.open('POST', 'server.php');
-
-
-
+            form.insertAdjacentElement('afterend', statusMessage);
 
             const formData = new FormData(form); //объект, представляющий данные HTML формы. Если передать в конструктор элемент HTML-формы form, то создаваемый объект автоматически прочитает из неё поля.
 
-            console.log('formData', formData);
-
             //
             // для отправке в формате JSON
-            request.setRequestHeader('Content-type', 'application/json');
             const obj = {};
             formData.forEach(function(value, key) {
                 obj[key] = value;
             });
 
-            const json = JSON.stringify(obj);
-            request.send(json); 
-            console.log('json', json);
-            // //
-            //
-
-            //request.send(formData); // отсылаем данные на сервер (в скобках - тело запроса - нужно для POST) // not json
-
-            request.addEventListener('load', () => {
-                if (request.status === 200) {
-                    console.log(request.response);
-                    showThanksModal(message.success);
-                    form.reset(); // очищает форму
-                    statusMessage.remove();
-                    
-                } else {
-                    showThanksModal(message.failure);
-                }
+            
+            fetch('server.php', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(obj)
+            })
+            .then(data => data.text())
+            .then(data => {
+                console.log(data);
+                showThanksModal(message.success);
+                statusMessage.remove();
+            }).catch(() => {
+                showThanksModal(message.failure);
+            }).finally(() => {
+                form.reset(); // очищает форму
             });
         });
     }
@@ -245,8 +234,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const prewModalWindow = document.querySelector('.modal__dialog');
 
         prewModalWindow.classList.add('hide');
-
-        openModal()
+        openModal();
 
         const insertWindow = document.createElement('div');
         insertWindow.classList.add('modal__dialog');
@@ -263,7 +251,5 @@ window.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }, 2500);
     }
- 
-
 });
 
