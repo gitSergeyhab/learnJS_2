@@ -31,7 +31,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     //dateTimer
 
-    const timeX = '01-18-2021';
+    const timeX = '2021-01-18';
 
     function lostTime() {
         const diffTime = Date.parse(timeX) - Date.parse(new Date());
@@ -51,13 +51,14 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     
     function inputTime() {
+        
         const nowlostTime = lostTime();
         const timer = document.querySelector('.timer');
         days = timer.querySelector('#days');
         hours = timer.querySelector('#hours');
         minutes = timer.querySelector('#minutes');
         seconds = timer.querySelector('#seconds');
-        if (nowlostTime.minutes > 0) {
+        if (nowlostTime.msAll > 0) {
             days.textContent = makeFirstZero(nowlostTime.days);
             hours.textContent = makeFirstZero(nowlostTime.hours);
             minutes.textContent = makeFirstZero(nowlostTime.minutes);
@@ -146,33 +147,31 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    new Menu(
-        "img/tabs/vegy.jpg",
-        "vegy",
-        'Меню "Фитнес"',
-        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-        229,
-        '.menu__field .container'
-    ).elementAdder();
+    const getResourses = async (url) => {
+        const res = await fetch(url);
+        
+        if (!res.ok) {
+            throw new Error(`getResourses: very bad: status = ${res.status}`);
+        }
 
-    new Menu(
-        "img/tabs/elite.jpg",
-        "elite",
-        'Меню “Премиум”',
-        'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-        550,
-        '.menu__field .container'
-    ).elementAdder();
+        return await res.json();
+    };
 
-    new Menu(
-        "img/tabs/post.jpg",
-        "post",
-        'Меню "Постное"',
-        'это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-        430,
-        '.menu__field .container'
-    ).elementAdder();
+    getResourses('http://localhost:3000/menu')
+        .then(data => {
+            data.forEach(({img, altimg, title, descr, price}) => {
+                new Menu(img, altimg, title, descr, price*40, '.menu__field .container').elementAdder();
+            });
+        });
 
+
+    // axios - вместо getResourses
+    // axios.get('http://localhost:3000/menu')
+    //     .then(data => {
+    //         data.data.forEach(({img, altimg, title, descr, price}) => {
+    //             new Menu(img, altimg, title, descr, price*40, '.menu__field .container').elementAdder();
+    //         });
+    //     });
 
     // forms
 
@@ -185,10 +184,22 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     forms.forEach(item => {
-        postData(item);
+        postDataBind(item);
     });
 
-    function postData(form) {
+    async function postData(url, data){
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            // body: JSON.stringify(data)
+            body: data
+        });
+        return await res.json();
+    }
+
+    function postDataBind(form) {
         form.addEventListener('submit', (evt) => {
             evt.preventDefault();
 
@@ -203,22 +214,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
             const formData = new FormData(form); //объект, представляющий данные HTML формы. Если передать в конструктор элемент HTML-формы form, то создаваемый объект автоматически прочитает из неё поля.
 
-            //
-            // для отправке в формате JSON
-            const obj = {};
-            formData.forEach(function(value, key) {
-                obj[key] = value;
-            });
-
-            
-            fetch('server.php', {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify(obj)
-            })
-            .then(data => data.text())
+            const json = JSON.stringify(Object.fromEntries(formData.entries()));
+  
+            postData('http://localhost:3000/requests', json)
             .then(data => {
                 console.log(data);
                 showThanksModal(message.success);
@@ -252,9 +250,61 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 2500);
     }
 
-    fetch('http://localhost:3000/menu')
-        .then(data => data.json())
-        .then(data => console.log(data));
+    // slider
+
+    const sliders = document.querySelectorAll('.offer__slide');
+    const slidePrev = document.querySelector('.offer__slider-prev');
+    const slideNext = document.querySelector('.offer__slider-next');
+    let numberSlider = 0;
+
+    const currentSlideNum = document.querySelector('#current');
+    const totalSlideNum = document.querySelector('#total');
+    totalSlideNum.textContent = makeFirstZero(sliders.length);
+
+    function hideAllSliders() {
+        sliders.forEach( slide => {
+            slide.classList.add('hide');
+        })
+    }
+
+    function showOneSlide(num=0) {
+        sliders.forEach((slide, i) => {
+            if(i == num) {
+                sliders[i].classList.remove('hide')
+            }
+        })
+    }
+
+    slidePrev.addEventListener('click', () => {
+        console.log(numberSlider);
+        if (numberSlider > 0) {
+            numberSlider -= 1;
+        } else {
+            numberSlider += (sliders.length-1);
+        }
+        hideAllSliders();
+        showOneSlide(numberSlider);
+        currentSlideNum.textContent = makeFirstZero(numberSlider+1);
+    })
+
+    slideNext.addEventListener('click', () => {
+        console.log(numberSlider);
+        if (numberSlider < sliders.length-1) {
+            numberSlider += 1;
+        } else {
+            numberSlider -= (sliders.length-1);
+        }
+        console.log(numberSlider);
+        hideAllSliders();
+        showOneSlide(numberSlider);
+        currentSlideNum.textContent = makeFirstZero(numberSlider+1);
+    })
+
+
+    hideAllSliders();
+    showOneSlide();
+
+    
 
     /*
     npx json-server --watch db.json
