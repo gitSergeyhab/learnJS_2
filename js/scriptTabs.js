@@ -275,31 +275,31 @@ window.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    function ShowRightSlide(num) {     
+        hideAllSliders();
+        showOneSlide(num);
+        currentSlideNum.textContent = makeFirstZero(num+1);
+    }
+
     slidePrev.addEventListener('click', () => {
-        console.log(numberSlider);
         if (numberSlider > 0) {
             numberSlider -= 1;
         } else {
-            numberSlider += (sliders.length-1);
+            numberSlider = sliders.length-1;
         }
-        hideAllSliders();
-        showOneSlide(numberSlider);
-        currentSlideNum.textContent = makeFirstZero(numberSlider+1);
+
+        ShowRightSlide(numberSlider)
     })
 
     slideNext.addEventListener('click', () => {
-        console.log(numberSlider);
         if (numberSlider < sliders.length-1) {
             numberSlider += 1;
         } else {
-            numberSlider -= (sliders.length-1);
+            numberSlider = 0;
         }
-        console.log(numberSlider);
-        hideAllSliders();
-        showOneSlide(numberSlider);
-        currentSlideNum.textContent = makeFirstZero(numberSlider+1);
-    })
 
+        ShowRightSlide(numberSlider)
+    })
 
     hideAllSliders();
     showOneSlide();
