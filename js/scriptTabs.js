@@ -75,7 +75,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const btnModals = document.querySelectorAll('[data-modal]');
 
     function closeModal() {
-        // modal.style.display = 'none';
         modal.classList.add('hide');
         modal.classList.remove('show');
         document.body.style.overflow = ''; // прокрутка по умолчанию
@@ -84,7 +83,6 @@ window.addEventListener('DOMContentLoaded', () => {
     function openModal() {
         modal.classList.add('show');
         modal.classList.remove('hide');
-        // modal.style.display = 'block';
         document.body.style.overflow = 'hidden'; // бирает прокрутку
         clearInterval(modalTimer);
 
@@ -164,7 +162,6 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-
     // axios - вместо getResourses
     // axios.get('http://localhost:3000/menu')
     //     .then(data => {
@@ -228,6 +225,7 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
     function showThanksModal(messege) {
         const prewModalWindow = document.querySelector('.modal__dialog');
 
@@ -242,6 +240,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 <div class="modal__title">${messege}</div>
             </div>
         `;
+
         document.querySelector('.modal').append(insertWindow);
         setTimeout(() => {
             insertWindow.remove();
@@ -325,20 +324,20 @@ window.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    function slideByNumAndOffset(num, off) {
+        currentSlideNum.textContent = makeFirstZero(num+1);
+        sliderInner.style.transform = `translateX(-${off}px)`;
+        dotOpacity(num);
+    }
+
     dotsList.forEach(dotItem => {
         dotItem.addEventListener('click', () => {
             offset = parseFloat(width) * (+dotItem.getAttribute('data-slide-to'))
             numberSlider = +dotItem.getAttribute('data-slide-to');
 
             slideByNumAndOffset(numberSlider, offset);
-            dotOpacity(numberSlider); 
         } );
     })
-
-    function slideByNumAndOffset(num, off) {
-        currentSlideNum.textContent = makeFirstZero(num+1);
-        sliderInner.style.transform = `translateX(-${off}px)`;
-    }
 
     slideNext.addEventListener('click', () => {
         if (offset == parseFloat(width) * (sliders.length-1)) {
@@ -350,7 +349,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         slideByNumAndOffset(numberSlider, offset);
-        dotOpacity(numberSlider);
     })
 
     slidePrev.addEventListener('click', () => {
@@ -361,8 +359,8 @@ window.addEventListener('DOMContentLoaded', () => {
             offset -= parseFloat(width);
             numberSlider -= 1;
         }
+
         slideByNumAndOffset(numberSlider, offset);
-        dotOpacity(numberSlider);
     })
 
     /*
