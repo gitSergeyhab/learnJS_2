@@ -256,53 +256,88 @@ window.addEventListener('DOMContentLoaded', () => {
     const slidePrev = document.querySelector('.offer__slider-prev');
     const slideNext = document.querySelector('.offer__slider-next');
     let numberSlider = 0;
+    let offset = 0;
 
     const currentSlideNum = document.querySelector('#current');
     const totalSlideNum = document.querySelector('#total');
+    const sliderWrapper = document.querySelector('.offer__slider-wrapper'); // контейнер для контейнера, чтобы прятать все что не влезло
+    const sliderInner = document.querySelector('.offer__slider-inner'); // контейнер со всеми слайдерами
+    const width = window.getComputedStyle(sliderWrapper).width;
+
     totalSlideNum.textContent = makeFirstZero(sliders.length);
 
-    function hideAllSliders() {
-        sliders.forEach( slide => {
-            slide.classList.add('hide');
-        })
-    }
-
-    function showOneSlide(num=0) {
-        sliders.forEach((slide, i) => {
-            if(i == num) {
-                sliders[i].classList.remove('hide')
-            }
-        })
-    }
-
-    function ShowRightSlide(num) {     
-        hideAllSliders();
-        showOneSlide(num);
-        currentSlideNum.textContent = makeFirstZero(num+1);
-    }
-
-    slidePrev.addEventListener('click', () => {
-        if (numberSlider > 0) {
-            numberSlider -= 1;
-        } else {
-            numberSlider = sliders.length-1;
-        }
-
-        ShowRightSlide(numberSlider)
-    })
+    sliderInner.style.width = sliders.length * 100 + '%'; // делаем sliderInner шириной со все слайды в нем 
+    sliderInner.style.display = 'flex'; // контейнер со  слайдерами в один ряд
+    sliderInner.style.transition = '0.5s all' // время трансформации
+    sliderWrapper.style.overflow = 'hidden' // прячем все что не влезло (sliderInner)  за границами sliderWrapper
+    sliders.forEach(slide => {slide.style.width = width}); // каждфй слайд - шириной в sliderWrapper
 
     slideNext.addEventListener('click', () => {
-        if (numberSlider < sliders.length-1) {
-            numberSlider += 1;
-        } else {
+        if (offset == parseFloat(width) * (sliders.length-1)) {
+            offset = 0;
             numberSlider = 0;
+        } else {
+            offset += parseFloat(width);
+            numberSlider += 1;
         }
-
-        ShowRightSlide(numberSlider)
+        currentSlideNum.textContent = makeFirstZero(numberSlider+1);
+        sliderInner.style.transform = `translateX(-${offset}px)`;
     })
 
-    hideAllSliders();
-    showOneSlide();
+    slidePrev.addEventListener('click', () => {
+        if (offset == 0) {
+            offset = (sliders.length-1) * parseFloat(width);
+            numberSlider = sliders.length-1;
+        } else {
+            offset -= parseFloat(width);
+            numberSlider -= 1;
+        }
+        currentSlideNum.textContent = makeFirstZero(numberSlider+1);
+        sliderInner.style.transform = `translateX(-${offset}px)`
+    })
+
+    // function hideAllSliders() {
+    //     sliders.forEach( slide => {
+    //         slide.classList.add('hide');
+    //     })
+    // }
+
+    // function showOneSlide(num=0) {
+    //     sliders.forEach((slide, i) => {
+    //         if(i == num) {
+    //             sliders[i].classList.remove('hide')
+    //         }
+    //     })
+    // }
+
+    // function ShowRightSlide(num) {     
+    //     hideAllSliders();
+    //     showOneSlide(num);
+    //     currentSlideNum.textContent = makeFirstZero(num+1);
+    // }
+
+    // slidePrev.addEventListener('click', () => {
+    //     if (numberSlider > 0) {
+    //         numberSlider -= 1;
+    //     } else {
+    //         numberSlider = sliders.length-1;
+    //     }
+
+    //     ShowRightSlide(numberSlider)
+    // })
+
+    // slideNext.addEventListener('click', () => {
+    //     if (numberSlider < sliders.length-1) {
+    //         numberSlider += 1;
+    //     } else {
+    //         numberSlider = 0;
+    //     }
+
+    //     ShowRightSlide(numberSlider)
+    // })
+
+    // hideAllSliders();
+    // showOneSlide();
 
     
 
