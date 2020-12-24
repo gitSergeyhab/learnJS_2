@@ -363,6 +363,76 @@ window.addEventListener('DOMContentLoaded', () => {
         slideByNumAndOffset(numberSlider, offset);
     })
 
+    // calculator
+    let sex = -161;
+    let act = 1.375;
+    const genderId = document.querySelector('#gender');
+    const genders = genderId.querySelectorAll('.calculating__choose-item');
+    const activityBig = document.querySelector('.calculating__choose_big');
+    const activities = activityBig.querySelectorAll('.calculating__choose-item');
+    const weightFild = document.querySelector('#weight');
+    const heightFild = document.querySelector('#height');
+    const ageFild = document.querySelector('#age');
+    const resultCalc = document.querySelector('.calculating__result span');
+
+    weightVal = 0; heightVal = 0; ageVal = 0;
+    
+    weightFild.addEventListener('input', () => {
+        weightVal = +weightFild.value    
+        showCallories();
+    })
+
+    heightFild.addEventListener('input', () => {
+        heightVal = +heightFild.value    
+        showCallories();
+    })
+
+    ageFild.addEventListener('input', () => {
+        ageVal = +ageFild.value    
+        showCallories();
+    })
+   
+    function genderRemove(block) {
+        block.forEach(gender => {
+            gender.classList.remove('calculating__choose-item_active');
+        })
+    }
+
+    genders.forEach(gender => {
+        gender.addEventListener('click', () => {
+            genderRemove(genders);
+            gender.classList.add('calculating__choose-item_active');
+            if (gender.getAttribute('data-sex') == 'f') {
+                sex = -161;
+            } else {
+                sex = 5;
+            }
+            showCallories();
+        })
+    });
+
+    activities.forEach(activity => {
+        activity.addEventListener('click', () => {
+            genderRemove(activities);
+            activity.classList.add('calculating__choose-item_active')
+            act = +activity.getAttribute('data-act');
+            showCallories();
+        })
+    })
+
+    function calloriesCalculat() {
+        if (sex && heightVal && weightVal && ageVal && act) {
+            return Math.round(((weightVal*10) + (heightVal*6.25) - (ageVal*5) + sex) * act);
+        }
+        return '-----';
+    }
+
+    function showCallories() {
+        resultCalc.textContent = calloriesCalculat()
+    }
+
+    showCallories()
+
     /*
     npx json-server --watch db.json
     */
