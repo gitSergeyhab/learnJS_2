@@ -210,8 +210,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal */ "./js/modules/modal.js");
 
 
-function formsF(modalTimer) {
-    const forms = document.querySelectorAll('form');
+function formsF( formSelector, modalTimer) {
+    const forms = document.querySelectorAll(formSelector);
 
     const message = {
         loading: 'img/forms/sp.svg',
@@ -630,7 +630,7 @@ window.addEventListener('DOMContentLoaded', () => {
     (0,_modules_timer__WEBPACK_IMPORTED_MODULE_1__.default)();
     (0,_modules_cards__WEBPACK_IMPORTED_MODULE_2__.default)();
     (0,_modules_modal__WEBPACK_IMPORTED_MODULE_3__.default)('.modal', '[data-modal]', modalTimer);
-    (0,_modules_forms__WEBPACK_IMPORTED_MODULE_4__.default)(modalTimer);
+    (0,_modules_forms__WEBPACK_IMPORTED_MODULE_4__.default)('form', modalTimer);
     (0,_modules_sliders__WEBPACK_IMPORTED_MODULE_5__.default)();
     (0,_modules_calc__WEBPACK_IMPORTED_MODULE_6__.default)();
 });

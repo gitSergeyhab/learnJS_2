@@ -1,7 +1,7 @@
 import {closeModal, openModal} from './modal';
 
-function formsF(modalTimer) {
-    const forms = document.querySelectorAll('form');
+function formsF( formSelector, modalTimer) {
+    const forms = document.querySelectorAll(formSelector);
 
     const message = {
         loading: 'img/forms/sp.svg',
