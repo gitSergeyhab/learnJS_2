@@ -208,6 +208,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal */ "./js/modules/modal.js");
+/* harmony import */ var _services_servises__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/servises */ "./js/services/servises.js");
+
 
 
 function formsF( formSelector, modalTimer) {
@@ -222,18 +224,6 @@ function formsF( formSelector, modalTimer) {
     forms.forEach(item => {
         postDataBind(item);
     });
-
-    async function postData(url, data) {
-        const res = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            // body: JSON.stringify(data)
-            body: data
-        });
-        return await res.json();
-    }
 
     function postDataBind(form) {
         form.addEventListener('submit', (evt) => {
@@ -252,7 +242,7 @@ function formsF( formSelector, modalTimer) {
 
             const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-            postData('http://localhost:3000/requests', json)
+            (0,_services_servises__WEBPACK_IMPORTED_MODULE_1__.postData)('http://localhost:3000/requests', json)
                 .then(data => {
                     console.log(data);
                     showThanksModal(message.success);
@@ -634,6 +624,32 @@ window.addEventListener('DOMContentLoaded', () => {
     (0,_modules_sliders__WEBPACK_IMPORTED_MODULE_5__.default)();
     (0,_modules_calc__WEBPACK_IMPORTED_MODULE_6__.default)();
 });
+
+/***/ }),
+
+/***/ "./js/services/servises.js":
+/*!*********************************!*\
+  !*** ./js/services/servises.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "postData": () => /* binding */ postData
+/* harmony export */ });
+async function postData(url, data) {
+    const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json'
+        },
+
+        body: data
+    });
+    return await res.json();
+}
+
+
 
 /***/ })
 
