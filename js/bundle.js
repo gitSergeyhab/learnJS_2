@@ -137,6 +137,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+/* harmony import */ var _services_servises__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/servises */ "./js/services/servises.js");
+
+
 function cardsF() {
     
     class Menu {
@@ -167,17 +170,7 @@ function cardsF() {
         }
     }
 
-    const getResourses = async (url) => {
-        const res = await fetch(url);
-
-        if (!res.ok) {
-            throw new Error(`getResourses: very bad: status = ${res.status}`);
-        }
-
-        return await res.json();
-    };
-
-    getResourses('http://localhost:3000/menu')
+    (0,_services_servises__WEBPACK_IMPORTED_MODULE_0__.getResourses)('http://localhost:3000/menu')
         .then(data => {
             data.forEach(({img, altimg, title, descr, price}) => {
                 new Menu(img, altimg, title, descr, price * 40, '.menu__field .container').elementAdder();
@@ -635,7 +628,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "postData": () => /* binding */ postData
+/* harmony export */   "postData": () => /* binding */ postData,
+/* harmony export */   "getResourses": () => /* binding */ getResourses
 /* harmony export */ });
 async function postData(url, data) {
     const res = await fetch(url, {
@@ -648,6 +642,16 @@ async function postData(url, data) {
     });
     return await res.json();
 }
+
+const getResourses = async (url) => {
+    const res = await fetch(url);
+
+    if (!res.ok) {
+        throw new Error(`getResourses: very bad: status = ${res.status}`);
+    }
+
+    return await res.json();
+};
 
 
 

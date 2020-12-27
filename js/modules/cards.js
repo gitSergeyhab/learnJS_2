@@ -1,3 +1,5 @@
+import {getResourses} from '../services/servises';
+
 function cardsF() {
     
     class Menu {
@@ -27,16 +29,6 @@ function cardsF() {
             document.querySelector(this.selector).append(div);
         }
     }
-
-    const getResourses = async (url) => {
-        const res = await fetch(url);
-
-        if (!res.ok) {
-            throw new Error(`getResourses: very bad: status = ${res.status}`);
-        }
-
-        return await res.json();
-    };
 
     getResourses('http://localhost:3000/menu')
         .then(data => {

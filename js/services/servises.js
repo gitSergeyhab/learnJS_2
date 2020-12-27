@@ -10,4 +10,14 @@ async function postData(url, data) {
     return await res.json();
 }
 
-export {postData};
+const getResourses = async (url) => {
+    const res = await fetch(url);
+
+    if (!res.ok) {
+        throw new Error(`getResourses: very bad: status = ${res.status}`);
+    }
+
+    return await res.json();
+};
+
+export {postData, getResourses};
