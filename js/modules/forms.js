@@ -77,4 +77,4 @@ function formsF() {
     }
 };
 
-module.exports = formsF;
+export default formsF;

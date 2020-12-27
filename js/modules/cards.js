@@ -54,4 +54,4 @@ function cardsF() {
     //     });
 }
 
-module.exports = cardsF;
+export default cardsF;

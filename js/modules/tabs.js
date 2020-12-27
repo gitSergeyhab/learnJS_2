@@ -29,4 +29,4 @@ function tabsF() {
     });
 }
 
-module.exports = tabsF;
+export default tabsF;

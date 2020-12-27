@@ -15,7 +15,7 @@ function calcF() {
         genderRemove(genders);
         genders.forEach(gender => {
             if (gender.getAttribute('data-sex') == localStorage.getItem('sexAtr')) {
-                gender.classList.add('calculating__choose-item_active')
+                gender.classList.add('calculating__choose-item_active');
             }
         })
     } else {
@@ -27,16 +27,16 @@ function calcF() {
         genderRemove(activities);
         activities.forEach(activity => {
             if (+activity.getAttribute('data-act') == localStorage.getItem('act')) {
-                activity.classList.add('calculating__choose-item_active')
+                activity.classList.add('calculating__choose-item_active');
             }
         })
     } else {
         act = 1.375;
     }
 
-    weightVal = 0;
-    heightVal = 0;
-    ageVal = 0;
+    let weightVal = 0;
+    let heightVal = 0;
+    let ageVal = 0;
 
     function noDigitMakeRed(field) {
         if (field.value.match(/\D/g)) {
@@ -88,9 +88,9 @@ function calcF() {
     activities.forEach(activity => {
         activity.addEventListener('click', () => {
             genderRemove(activities);
-            activity.classList.add('calculating__choose-item_active')
+            activity.classList.add('calculating__choose-item_active');
             act = +activity.getAttribute('data-act');
-            localStorage.setItem('act', act)
+            localStorage.setItem('act', act);
             showCallories();
         })
     })
@@ -103,10 +103,10 @@ function calcF() {
     }
 
     function showCallories() {
-        resultCalc.textContent = calloriesCalculat()
+        resultCalc.textContent = calloriesCalculat();
     }
 
     showCallories()
 };
 
-module.exports = calcF;
+export default calcF;

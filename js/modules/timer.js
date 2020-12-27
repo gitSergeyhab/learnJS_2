@@ -22,10 +22,10 @@ function timerF() {
 
         const nowlostTime = lostTime();
         const timer = document.querySelector('.timer');
-        days = timer.querySelector('#days');
-        hours = timer.querySelector('#hours');
-        minutes = timer.querySelector('#minutes');
-        seconds = timer.querySelector('#seconds');
+        const days = timer.querySelector('#days');
+        const hours = timer.querySelector('#hours');
+        const minutes = timer.querySelector('#minutes');
+        const seconds = timer.querySelector('#seconds');
         if (nowlostTime.msAll > 0) {
             days.textContent = makeFirstZero(nowlostTime.days);
             hours.textContent = makeFirstZero(nowlostTime.hours);
@@ -38,4 +38,4 @@ function timerF() {
     setInterval(inputTime, 1000);
 }
 
-module.exports = timerF;
+export default timerF;

@@ -1,19 +1,20 @@
+import tabsF from './modules/tabs';
+import timerF from './modules/timer';
+import cardsF from './modules/cards';
+import modalF from './modules/modal';
+import formsF from './modules/forms';
+import slidersF from './modules/sliders';
+import calcF from './modules/calc';
+
 window.addEventListener('DOMContentLoaded', () => {
 
-            const tabsF = require('./modules/tabs'),
-                timerF = require('./modules/timer'),
-                cardsF = require('./modules/cards'),
-                modalF = require('./modules/modal'),
-                formsF = require('./modules/forms'),
-                slidersF = require('./modules/sliders'),
-                calcF = require('./modules/calc');
 
 
-            tabsF();
-            timerF();
-            cardsF();
-            modalF();
-            formsF();
-            slidersF();
-            calcF();
-        });
+    tabsF();
+    timerF();
+    cardsF();
+    modalF();
+    formsF();
+    slidersF();
+    calcF();
+});

@@ -121,4 +121,4 @@ function slidersF() {
     })
 };
 
-module.exports = slidersF;
+export default slidersF;

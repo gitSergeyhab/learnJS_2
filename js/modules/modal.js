@@ -47,4 +47,4 @@ function modalF() {
 
 }
 
-module.exports = modalF;
+export default modalF;
