@@ -537,8 +537,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-function timerF() {
-    const timeX = '2021-01-18';
+function timerF(selectorTimer, timeX) {
 
     function lostTime() {
         const diffTime = Date.parse(timeX) - Date.parse(new Date());
@@ -560,7 +559,7 @@ function timerF() {
     function inputTime() {
 
         const nowlostTime = lostTime();
-        const timer = document.querySelector('.timer');
+        const timer = document.querySelector(selectorTimer);
         const days = timer.querySelector('#days');
         const hours = timer.querySelector('#hours');
         const minutes = timer.querySelector('#minutes');
@@ -609,8 +608,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const modalTimer = setTimeout(() => (0,_modules_modal__WEBPACK_IMPORTED_MODULE_3__.openModal)('.modal', modalTimer), 50000);
 
 
-    (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__.default)();
-    (0,_modules_timer__WEBPACK_IMPORTED_MODULE_1__.default)();
+    (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__.default)('.tabcontent', '.tabheader__item', 'tabheader__item_active');
+    (0,_modules_timer__WEBPACK_IMPORTED_MODULE_1__.default)('.timer', '2021-01-18');
     (0,_modules_cards__WEBPACK_IMPORTED_MODULE_2__.default)();
     (0,_modules_modal__WEBPACK_IMPORTED_MODULE_3__.default)('.modal', '[data-modal]', modalTimer);
     (0,_modules_forms__WEBPACK_IMPORTED_MODULE_4__.default)('form', modalTimer);

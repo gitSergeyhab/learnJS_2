@@ -12,8 +12,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const modalTimer = setTimeout(() => openModal('.modal', modalTimer), 50000);
 
 
-    tabsF();
-    timerF();
+    tabsF('.tabcontent', '.tabheader__item', 'tabheader__item_active');
+    timerF('.timer', '2021-01-18');
     cardsF();
     modalF('.modal', '[data-modal]', modalTimer);
     formsF('form', modalTimer);

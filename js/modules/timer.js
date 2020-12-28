@@ -1,5 +1,4 @@
-function timerF() {
-    const timeX = '2021-01-18';
+function timerF(selectorTimer, timeX) {
 
     function lostTime() {
         const diffTime = Date.parse(timeX) - Date.parse(new Date());
@@ -21,7 +20,7 @@ function timerF() {
     function inputTime() {
 
         const nowlostTime = lostTime();
-        const timer = document.querySelector('.timer');
+        const timer = document.querySelector(selectorTimer);
         const days = timer.querySelector('#days');
         const hours = timer.querySelector('#hours');
         const minutes = timer.querySelector('#minutes');
