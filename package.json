@@ -12,16 +12,25 @@
   },
   "author": "",
   "license": "ISC",
+  "browserslist": [
+    "> 1%"
+  ],
   "bugs": {
     "url": "https://github.com/gitSergeyhab/learnJS_2/issues"
   },
   "homepage": "https://github.com/gitSergeyhab/learnJS_2#readme",
   "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "babel-loader": "^8.2.2",
+    "core-js": "^3.8.1",
     "json-server": "^0.16.3",
     "webpack": "^5.11.0",
     "webpack-cli": "^4.3.0"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "@webpack-cli/init": "^1.1.0"
   }
 }

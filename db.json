@@ -92,6 +92,16 @@
       "name": "test 3.1",
       "phone": "3331-3331",
       "id": 15
+    },
+    {
+      "name": "babel after test 2",
+      "phone": "22-666-666",
+      "id": 16
+    },
+    {
+      "name": "babel after test 3",
+      "phone": "333-333-33-3",
+      "id": 17
     }
   ]
 }
