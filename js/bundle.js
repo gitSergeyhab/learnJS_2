@@ -492,14 +492,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-function tabsF() {
-    const contents = document.querySelectorAll('.tabcontent');
-    const tabItems = document.querySelectorAll('.tabheader__item');
+function tabsF(selectorContent, selectorItem, classActive) {
+    const contents = document.querySelectorAll(selectorContent);
+    const tabItems = document.querySelectorAll(selectorItem);
 
     function deactivateAll() {
         contents.forEach((cont, i) => {
             cont.style.display = 'none';
-            tabItems[i].classList.remove('tabheader__item_active');
+            tabItems[i].classList.remove(classActive);
         })
     }
 
@@ -507,7 +507,7 @@ function tabsF() {
         for (let i = 0; i < contents.length; i++) {
             if (i == c) {
                 contents[i].style.display = 'block';
-                tabItems[i].classList.add('tabheader__item_active');
+                tabItems[i].classList.add(classActive);
             }
         }
     }
