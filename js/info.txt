@@ -1,0 +1,13 @@
+// babel install
+install --save-dev @babel/core @babel/cli @babel/preset-env
+npm install --save @babel/polyfill
+npm i --save-dev babel-loader 
+npm i --save-dev core-js 
+
+// запуск webpack
+npx webpack
+
+// запуск json-server
+npx json-server --watch db.json
+
+
